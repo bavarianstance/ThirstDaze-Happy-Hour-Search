@@ -85,6 +85,7 @@
 
       $(".yelp").on("submit", function () {
         //Will stop the page from refreshing so we can grab the values input by the user
+        $(".container").empty();
         event.preventDefault()
 
       // ===================== YOUR CODE HERE ==================
@@ -95,7 +96,7 @@
       var distance = $("#distance").val()
 
         $.ajax({
-          url: 'https://api.yelp.com/v3/businesses/search?term=' + category + '&location=' + location + '&radius=' + distance + '&price=' + price,
+          url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&location=' + location + '&radius=' + distance + '&price=' + price +'&limit=10' + '&open_at=1552316400',
           method: "GET",
                 // This solution does not include an API key. You will have to fill in the API key yourself
           headers: {
@@ -105,7 +106,7 @@
           console.log(response)
 
           for (var i = 0; i < response.businesses.length; i++) {
-            $(".container").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">'+response.businesses[i].display_phone+'</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
+            $(".container").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/>' + '<h2 class="resultnumber">' + (parseInt(i)+1) +'.</h2><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">'+response.businesses[i].display_phone+'</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
           }
 
         });
