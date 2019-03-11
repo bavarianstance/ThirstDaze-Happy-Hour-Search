@@ -99,6 +99,7 @@
 
         var location = $("#location").val();
         var category = $("#category").val();
+        var map;
 
         $.ajax({
           url: 'https://api.yelp.com/v3/businesses/search?term=' + category + '&location=' + location + '',
@@ -118,52 +119,37 @@
 
             var marker = new google.maps.Marker({
               map: map,
-              position: position,
-              title: title,
+              position: markerPosition,
               visible: true,
               animation: null,
-              foursqVenId: foursqVenId
             });
-            locations[i].marker = marker;
-            locations[i].infoWindow = infoWindow;
-            /* Adds click listener to map markers. On click, marker animates and infowindow displays. */
+
+            response.businesses[i].marker = marker;
+
+            // Adds click listener to map markers. On click, marker animates.
             marker.addListener("click", function() {
               bounceMarker(this);
-              showInfoWindow(this, infoWindow);
             });
-            /* Defines event handler for click binding in list view <li>'s.  On click, associated map marker
-            animates and infowindow displays.  */
-            locations[i].showAndTell = function() {
-              bounceMarker(this.marker);
-              showInfoWindow(this.marker, this.infoWindow);
-            };
-            bounds.extend(locations[i].position);
 
           };
 
           // Create div for map and prepend to .container.
-          $(".container").prepend($("<div id="map"></div>"));
+          $(".container").prepend('<div id="map"></div>');
 
           // Initialize and add map.
           function initMap() {
-            var map = new google.maps.Map(
-              // Need to add value for center, should be centered on search results.
-              var mapCenter = {lat: , lng: }
+            /* To center map on search results, not sure what to pass for lat: and lng:. */
+            var mapCenter = {lat: , lng: };
+
+            map = new google.maps.Map(
+              // Need to add value for center, should be centered to show
+              // search results.
               document.getElementById('map'), {zoom: 4, center: mapCenter});
-
-            // Create array of letters for labeling the markers.
-            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-
-
 
           };
 
 
         });
-
-
-
 
       // =======================================================
 
