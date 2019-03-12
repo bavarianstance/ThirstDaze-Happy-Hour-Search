@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Yelp API</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="results.css">
+
+
+</head>
+
+<body>
+
+    <div class="form-contain searchvis">
+        <h3 class="search-heading">Search for businesses!</h3>
+        <form class="yelp">
+            <input placeholder="location" id="location" type="text">
+            <input placeholder="category" type="text" id="category">
+            <input placeholder="$" type="text" id="price">
+            <input placeholder="radius" type="text" id="distance">
+            <input placeholder="keyword" type="text" id="search">
+            <input type="submit">
+        </form>
+    </div>
+    <section class="section resultinvis">
+        <div class="card col-8 align-self-center">
+
+            <div class="card-body">
+
+                <!--Google map-->
+                <div id="map-container-google-12" class="z-depth-1-half map-container-7" style="height: 50px">
+                    <!-- this will have to come from the response API, we'll have to create an iFrame with the results from the Google Maps query -->
+                    <iframe src="https://maps.google.com/maps?q=Miami&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container resultinvis">
+
+
+    </div>
+
+    <script>
+
+        var config = {
+            apiKey: "AIzaSyDkTx3oZPQengp6Wa0c9brsPQfc-jj9gXg",
+            authDomain: "ladytaythebugalex.firebaseapp.com",
+            databaseURL: "https://ladytaythebugalex.firebaseio.com",
+            projectId: "ladytaythebugalex",
+            storageBucket: "ladytaythebugalex.appspot.com",
+            messagingSenderId: "332975401413"
+        };
+
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        var name = "";
+        var uniqueId = "";
+        var dealDesc = "";
+        var monday = "";
+        var tuesday = "";
+        var wednesday = "";
+        var thursday = "";
+        var friday = "";
+        var startHour = "";
+        var endHour = "";
+        var likes = 0;
+        var dislikes = 0;
+
+
+
+        $(document).ready(function () {
+
+            // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
+            jQuery.ajaxPrefilter(function (options) {
+                if (options.crossDomain && jQuery.support.cors) {
+                    options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+                }
+            });
+
+            $(".yelp").on("submit", function () {
+                $(".container").empty();
+                event.preventDefault();
+
+                var location = $("#location").val()
+                var category = $("#category").val()
+                var price = $("#price").val()
+                var distance = $("#distance").val()
+                var term = $("#search").val()
+                // removing search fields and replacing with results
+                $(".searchvis").empty();
+                $(".searchvis").attr("class", "searchinvis");
+                $(".resultinvis").attr("class", "resultvis");
+
+                $.ajax({
+                    url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price + '&limit=10',
+                    method: "GET",
+                    headers: {
+                        authorization: "Bearer u94GL1gHllHagHc-SWqFcBuNgsLm-EpZoH8kVCeCTJ4g51NHhxgpBhOMid1Oc8Y_7TXgddr0Abi-CyhEqGw3fvJNLi6tJAlAdZH8o02CNMT0s-if4OBJMnwRfoOEXHYx"
+                    }
+                }).then(function (response) {
+                    console.log(response)
+
+
+
+                    for (var i = 0; i < response.businesses.length; i++) {
+                        // var divRow = $("<div>");
+                        // divRow.addClass("row");
+
+                        // var image = response.businesses[i].image_url;
+                        // var imageData = $("<img>");
+                        // imageData.addClass("thumbnail");
+                        // imageData.attr("src", image);
+                        // imageData.addClass("thumbnail");
+
+                        // var resultNum = (parseInt(i) + 1);
+                        // var resultNumData = $("<h2>");
+                        // nameData.addClass("resultNumber");
+                        // nameData.append(resultNumData);
+
+
+                        $(".resultvis").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/>' + '<h2 class="resultnumber">' + (parseInt(i) + 1) + '.</h2><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">' + response.businesses[i].display_phone + '</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
+                    }
+
+                });
+            });
+        })
+
+    </script>
+</body>
+
+</html>
