@@ -6,17 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Yelp API</title>
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./assets/css/style_beta.css">
 
+
 </head>
 
 <body>
-    <div class="form-contain searchvis">
-        <h3 class="search-heading">Search for happy hour!</h3>
+
+    <div class="form-contain">
+        <h3 class="search-heading">Search for happy hours!</h3>
         <form class="yelp">
-            <input placeholder="city or zip" id="location" type="text">
+            <input placeholder="location" id="location" type="text">
             <input placeholder="category" type="text" id="category">
             <input placeholder="$" type="text" id="price">
             <input placeholder="radius" type="text" id="distance">
@@ -24,21 +28,7 @@
             <input type="submit">
         </form>
     </div>
-    <section class="section resultInvisOne">
-        <div class="card col-8 align-self-center">
-
-            <div class="card-body">
-
-                <!--Google map-->
-                <div id="map-container-google-12" class="z-depth-1-half map-container-7" style="height: 50px">
-                    <!-- this will have to come from the response API, we'll have to create an iFrame with the results from the Google Maps query -->
-                    <iframe src="https://maps.google.com/maps?q=Miami&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                        frameborder="0" style="border:0" allowfullscreen></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="container resultInvisTwo">
+    <div id="results">
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"

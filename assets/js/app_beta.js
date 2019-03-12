@@ -25,7 +25,6 @@
         var dislikes = 0;
 
 
-
         $(document).ready(function () {
 
             // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
@@ -36,7 +35,7 @@
             });
 
             $(".yelp").on("submit", function () {
-                $(".container").empty();
+                $("#results").empty();
                 event.preventDefault();
 
                 var location = $("#location").val()
@@ -44,11 +43,6 @@
                 var price = $("#price").val()
                 var distance = $("#distance").val()
                 var term = $("#search").val()
-                // removing search fields and replacing with results
-                $(".searchvis").empty();
-                $(".searchvis").attr("class", "searchinvis");
-                $(".resultInvisOne").attr("class", "resultVisOne");
-                $(".resultInvisTwo").attr("class", "resultVisTwo");
 
                 $.ajax({
                     url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price + '&limit=10',
@@ -82,7 +76,7 @@
                         // nameData.append(resultNumData);
 
 
-                        $(".resultVisTwo").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/>' + '<h2 class="resultnumber">' + (parseInt(i) + 1) + '.</h2><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">' + response.businesses[i].display_phone + '</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
+                        $("#results").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/>' + '<h2 class="resultnumber">' + (parseInt(i) + 1) + '.</h2><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">' + response.businesses[i].display_phone + '</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
                     }
 
                 });
