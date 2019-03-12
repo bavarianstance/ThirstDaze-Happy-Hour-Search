@@ -65,6 +65,7 @@
       <input placeholder="category" type="text" id="category">
       <input placeholder="$" type="text" id="price">
       <input placeholder="radius" type="text" id="distance">
+      <input placeholder="keyword" type="text" id="search">
       <input type="submit">
     </form>
   </div>
@@ -94,9 +95,10 @@
       var category = $("#category").val()
       var price = $("#price").val()
       var distance = $("#distance").val()
+      var term = $("#search").val()
 
         $.ajax({
-          url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&location=' + location + '&radius=' + distance + '&price=' + price +'&limit=10' + '&open_at=1552316400',
+          url: 'https://api.yelp.com/v3/businesses/search?categories=' + category +'&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price +'&limit=10',
           method: "GET",
                 // This solution does not include an API key. You will have to fill in the API key yourself
           headers: {

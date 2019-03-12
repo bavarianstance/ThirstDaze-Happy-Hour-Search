@@ -1,0 +1,23 @@
+body{
+    background-color: rgb(235, 231, 224);
+    text-align: center;
+}
+h1{
+    font-size: 50px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h3{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+p{
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+     font-size: 35px;
+     
+}
+
+.jumbotron {
+    background-color: rgb(235, 231, 224);
+}
