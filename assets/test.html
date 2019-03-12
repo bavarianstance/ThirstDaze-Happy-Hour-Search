@@ -1,0 +1,73 @@
+<!-- Bootstrap-Powered HTML -->
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>ThirstDaze</title>
+  <!-- We link our html to the Bootstrap CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="test.css">
+</head>
+<body>
+    <H1>ThirstDaze</H1>
+    <h3>The Happy Hour Place</h3>
+     <!-- a Bootstrap row with columns -->
+     <div class="row">
+        <!-- At large+ screens takes up half width (6/12) -->
+        <div class="col-lg-6">
+            <button>
+          <!-- centered image with thumbnail rules -->
+          
+          <img src="/Users/ryanzaragoza/Desktop/Project-One/project-happyhour/images/f&b.jpg" width="40%">
+            </button>
+          <p>HH Drinks & Food Deals</p>
+        </div>
+  
+        <!-- At large+ screens takes up half width (6/12) -->
+        <div class="col-lg-6">
+            <button>
+          <img src="/Users/ryanzaragoza/Desktop/Project-One/project-happyhour/images/cocktail.png" width="40%">
+        </button>
+          <p>HH Drinks</p>
+        </div>
+      </div>
+    </div>
+      <!-- button with predefined style rules -->
+      <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <button type="button" class="btn btn-secondary">$</button>
+            <button type="button" class="btn btn-secondary">$$</button>
+            <button type="button" class="btn btn-secondary">$$$</button>
+            <button type="button" class="btn btn-secondary">$$$$</button>
+          
+            <div class="btn-group" role="group">
+              <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Location
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#">Dropdown link</a>
+                <a class="dropdown-item" href="#">Dropdown link</a>
+              </div>
+            </div>
+          </div>
+    </div>
+  
+    <!-- Jumbotron element -->
+    <div class="jumbotron">
+      <!-- centered text -->
+      <h1 class="text-center"><strong>Hoppy Hour</strong></h1>
+      <h2 class="text-center">Quench your Thirst</h2>
+      <input type="text" id="search"><br>
+      <!-- <h3 class="text-center">Even Smaller Header</h3> -->
+      <!-- button with predefined style rules -->
+      <p class="text-center">
+            <!-- <a class="btn btn-primary btn-lg" href="#" role="button">
+              <span class=""></span>Bottoms Up!</a> -->
+              <button type="button" class="btn btn-outline-info">Bottoms Up!</button>
+    
+  <!-- jQuery, javascript file for the Bootstrap's javascript file to function -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Bootstrap's javascript file that allows the dropdown menu to work  -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
