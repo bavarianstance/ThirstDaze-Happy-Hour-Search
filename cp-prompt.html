@@ -7,12 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>So you think you can API? Pt.4</title>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
 
-  <!-- Google Maps API https://developers.google.com/maps/ -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxpOqkBZp0R6u66qBWWVGPwRIyEnW6fB4&callback=initMap" onerror="mapErrorHandler()"></script>
+
+
 
   <style>
     .form-contain {
@@ -60,7 +57,7 @@
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
     #map {
-      height: 25%;
+      height: 30%;
     }
 
   </style>
@@ -77,86 +74,114 @@
     </form>
   </div>
 
-  <div class="container">
+  <div class="container" id="map-container">
+    <div id="map"></div>
+  </div>
+
+  <div class="container" id="results-container">
 
   </div>
 
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
+  <!-- <script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script> -->
+
   <script>
-    $(document).ready(function () {
 
-      // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
-      jQuery.ajaxPrefilter(function (options) {
-        if (options.crossDomain && jQuery.support.cors) {
-          options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
-        }
-      });
+            var mapCenter = {
+            lat: 37.78106,
+            lng: -122.40834
+          };
+          function initMap() {
 
-      $(".yelp").on("submit", function () {
-        //Will stop the page from refreshing so we can grab the values input by the user
-        event.preventDefault()
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 10,
+
+              // Need to pass values for center.
+              center: mapCenter
+            });
+
+          };
+          $("#map").hide();
+    // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
+    jQuery.ajaxPrefilter(function (options) {
+      if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+      }
+    });
+
+    $(".yelp").on("submit", function () {
+      //Will stop the page from refreshing so we can grab the values input by the user
+      event.preventDefault();
 
       // ===================== YOUR CODE HERE ==================
 
-        var location = $("#location").val();
-        var category = $("#category").val();
-        var map;
+      var location = $("#location").val();
+      var category = $("#category").val();
 
-        $.ajax({
-          url: 'https://api.yelp.com/v3/businesses/search?term=' + category + '&location=' + location + '',
-          method: "GET",
-                // This solution does not include an API key. You will have to fill in the API key yourself
-          headers: {
-            authorization: "Bearer u94GL1gHllHagHc-SWqFcBuNgsLm-EpZoH8kVCeCTJ4g51NHhxgpBhOMid1Oc8Y_7TXgddr0Abi-CyhEqGw3fvJNLi6tJAlAdZH8o02CNMT0s-if4OBJMnwRfoOEXHYx"
+      /* Store coordinates for map markers for search results, will be
+      to center the markers in the map. */
+      var markerCoords = [];
+
+      $.ajax({
+        url: 'https://api.yelp.com/v3/businesses/search?term=' + category + '&location=' + location + '',
+        method: "GET",
+        // This solution does not include an API key. You will have to fill in the API key yourself
+        headers: {
+          authorization: "Bearer u94GL1gHllHagHc-SWqFcBuNgsLm-EpZoH8kVCeCTJ4g51NHhxgpBhOMid1Oc8Y_7TXgddr0Abi-CyhEqGw3fvJNLi6tJAlAdZH8o02CNMT0s-if4OBJMnwRfoOEXHYx"
           }
         }).then(function (response) {
-          console.log(response)
+
+          console.log(response);
 
           for (var i = 0; i < response.businesses.length; i++) {
-            $(".container").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">'+response.businesses[i].display_phone+'</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>');
+            $("#results-container").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">'+response.businesses[i].display_phone+'</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>');
 
-            // Create marker for each search result.
-            var markerPosition = response.businesses[i].coordinates;
+            /* Capture lat/lng for each search result, will use to create
+            map markers. */
+            var markerPosition = {
+              lat: response.businesses[i].coordinates.latitude,
+              lng: response.businesses[i].coordinates.longitude
+            };
 
-            var marker = new google.maps.Marker({
-              map: map,
-              position: markerPosition,
-              visible: true,
-              animation: null,
-            });
-
-            response.businesses[i].marker = marker;
-
-            // Adds click listener to map markers. On click, marker animates.
-            marker.addListener("click", function() {
-              bounceMarker(this);
-            });
+            // Store lat/lng coordinates in markerCoords.
+            markerCoords.push(markerPosition);
 
           };
 
-          // Create div for map and prepend to .container.
-          $(".container").prepend('<div id="map"></div>');
+          console.log(markerCoords);
 
-          // Initialize and add map.
-          function initMap() {
-            /* To center map on search results, not sure what to pass for lat: and lng:. */
-            var mapCenter = {lat: , lng: };
+                    $("#map").show();
 
-            map = new google.maps.Map(
-              // Need to add value for center, should be centered to show
-              // search results.
-              document.getElementById('map'), {zoom: 4, center: mapCenter});
 
-          };
+          // var mapCenter = {
+          //   lat: 37.78106,
+          //   lng: -122.40834
+          // };
 
+          // // Initialize and add map.
+          // function initMap() {
+
+          //   var map = new google.maps.Map(document.getElementById('map'), {
+          //     zoom: 10,
+
+          //     // Need to pass values for center.
+          //     center: mapCenter
+          //   });
+
+          // };
 
         });
 
-      // =======================================================
-
       });
-    })
+
 
   </script>
+
+  <!-- Google Maps API https://developers.google.com/maps/ -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxpOqkBZp0R6u66qBWWVGPwRIyEnW6fB4&callback=initMap"></script>
+
 </body>
 
 </html>
