@@ -39,9 +39,9 @@
                 event.preventDefault();
 
                 var location = $("#location").val()
-                var category = $("#category").val()
-                var price = $("#price").val()
-                var distance = $("#distance").val()
+                var category = $("div.btn-group-lg button.active").val()
+                var price = $("div.btn-group button.active").val()
+                var distance = $("div.btn-group-sm button.active").val()
                 var term = $("#search").val()
 
                 $.ajax({

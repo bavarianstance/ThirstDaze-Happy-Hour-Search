@@ -9,6 +9,11 @@ $(document).ready(function(){
     $(this).addClass("active");
   });  
 
+   $("div.btn-group-sm button.btn").click(function(){
+    $("div.btn-group-sm").find(".active").removeClass("active");
+    $(this).addClass("active");
+  });  
+
 
 });
 

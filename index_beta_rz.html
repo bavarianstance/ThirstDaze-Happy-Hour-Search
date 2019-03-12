@@ -3,9 +3,10 @@
 <html lang="en-us">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>ThirstDaze</title>
   <!-- We link our html to the Bootstrap CDN -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./assets/css/style_beta_rz.css">
 </head>
@@ -13,6 +14,7 @@
     <h1>ThirstDaze</h1>
     <h3>The Happy Hour App</h3>
 
+<form class="yelp">
 <div class="btn-group-lg" role="group" aria-label="primary selection">
   <button type="button" class="btn btn-secondary value="bars">Drinks</button>
   <button type="button" class="btn btn-secondary value="restaurants">Drinks + Food</button>
@@ -24,26 +26,31 @@
             <button type="button" class="btn btn-secondary" value="3">$$$</button>
             <button type="button" class="btn btn-secondary" value="4">$$$$</button>
             </div>
+<br>
+<br>
+            <div class="btn-group-sm" role="group" aria-label="radius">
+            <button type="button" class="btn btn-secondary" value="161">Few Blocks</button>
+            <button type="button" class="btn btn-secondary" value="403">Quarter Mile</button>
+            <button type="button" class="btn btn-secondary" value="805">Half Mile</button>
+            <button type="button" class="btn btn-secondary" value="1610">1 Mile</button>
+            <button type="button" class="btn btn-secondary" value="8050">5 Miles</button>
+            </div>
 
-  
-    <!-- Jumbotron element -->
-    <div class="jumbotron">
-      <!-- centered text -->
-      <h2 class="text-center">Quench your Thirst</h2>
+      <br>
+      <br>
+      <input type="text" placeholder="city or zip" id="location"><br>
+      <br>
       <input type="text" placeholder="keyword(optional)" id="search"><br>
-      <!-- <h3 class="text-center">Even Smaller Header</h3> -->
-      <!-- button with predefined style rules -->
-      <p class="text-center">
-            <!-- <a class="btn btn-primary btn-lg" href="#" role="button">
-              <span class=""></span>Bottoms Up!</a> -->
-              <button type="button" class="btn btn-outline-info">Bottoms Up!</button>
-    
-  <!-- jQuery, javascript file for the Bootstrap's javascript file to function -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <!-- Bootstrap's javascript file that allows the dropdown menu to work  -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <button type="submit" class="btn btn-outline-info">Bottoms Up!</button>
+</form>
+
+<div id="results"></div>
+<script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="./assets/js/app_beta.js"></script>
 <script src="./assets/js/app_beta_rz.js"></script>
 </body>
 </html>

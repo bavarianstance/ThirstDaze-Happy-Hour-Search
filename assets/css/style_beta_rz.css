@@ -18,6 +18,9 @@ p{
      
 }
 
-.jumbotron {
-    background-color: rgb(235, 231, 224);
-}
+   .thumbnail {
+        height: 200px;
+        width: 200px;
+        border-radius: 100%;
+        float: left;
+    }
