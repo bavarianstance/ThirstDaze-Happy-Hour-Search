@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Yelp API</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.3.0.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+
+    <div class="form-contain searchvis">
+        <h3 class="search-heading">Search for businesses!</h3>
+        <form class="yelp">
+            <input placeholder="location" id="location" type="text">
+            <input placeholder="category" type="text" id="category">
+            <input placeholder="$" type="text" id="price">
+            <input placeholder="radius" type="text" id="distance">
+            <input placeholder="keyword" type="text" id="search">
+            <input type="submit">
+        </form>
+    </div>
+    <section class="section resultInvisOne">
+        <div class="card col-8 align-self-center">
+
+            <div class="card-body">
+
+                <!--Google map-->
+                <div id="map-container-google-12" class="z-depth-1-half map-container-7" style="height: 50px">
+                    <!-- this will have to come from the response API, we'll have to create an iFrame with the results from the Google Maps query -->
+                    <iframe src="https://maps.google.com/maps?q=Miami&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container resultInvisTwo">
+
+
+    </div>
+
+    
+
+    <script>
+
+        var config = {
+            apiKey: "AIzaSyDkTx3oZPQengp6Wa0c9brsPQfc-jj9gXg",
+            authDomain: "ladytaythebugalex.firebaseapp.com",
+            databaseURL: "https://ladytaythebugalex.firebaseio.com",
+            projectId: "ladytaythebugalex",
+            storageBucket: "ladytaythebugalex.appspot.com",
+            messagingSenderId: "332975401413"
+        };
+
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        var name = "";
+        var uniqueId = "";
+        var dealDesc = "";
+        var monday = "";
+        var tuesday = "";
+        var wednesday = "";
+        var thursday = "";
+        var friday = "";
+        var startHour = "";
+        var endHour = "";
+        var thumbsup = 0;
+        var thumbsdown = 0;
+
+
+
+        $(document).ready(function () {
+
+            // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
+            jQuery.ajaxPrefilter(function (options) {
+                if (options.crossDomain && jQuery.support.cors) {
+                    options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+                }
+            });
+
+            $(".yelp").on("submit", function () {
+                $(".container").empty();
+                event.preventDefault();
+
+                var location = $("#location").val()
+                var category = $("#category").val()
+                var price = $("#price").val()
+                var distance = $("#distance").val()
+                var term = $("#search").val()
+                // removing search fields and replacing with results
+                $(".searchvis").empty();
+                $(".searchvis").attr("class", "searchinvis");
+                $(".resultInvisOne").attr("class", "resultVisOne");
+                $(".resultInvisTwo").attr("class", "resultVisTwo");
+
+                $.ajax({
+                    url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price + '&limit=10',
+                    method: "GET",
+                    headers: {
+                        authorization: "Bearer u94GL1gHllHagHc-SWqFcBuNgsLm-EpZoH8kVCeCTJ4g51NHhxgpBhOMid1Oc8Y_7TXgddr0Abi-CyhEqGw3fvJNLi6tJAlAdZH8o02CNMT0s-if4OBJMnwRfoOEXHYx"
+                    }
+                }).then(function (response) {
+                    console.log(response)
+
+
+
+                    for (var i = 0; i < response.businesses.length; i++) {
+                        uniqueId = response.businesses[i].id
+
+                        
+                        var divRow = $("<div>");
+                        divRow.addClass("results");
+                        var divColOne = $("<div>");
+                        divColOne.addClass("col-2")
+                        divColOne.addClass("thumbnail")
+                        var divColTwo = $("<div>");
+                        divColTwo.addClass("col-2")
+                        divColTwo.addClass("name");
+                        var divColThree = $("<div>");
+                        divColThree.addClass("col-2")
+                        divColThree.addClass("address")
+                        var divColFour = $("<div>");
+                        divColFour.addClass("col-4")
+                        divColFour.addClass("modal")
+                        var divColFive = $("<div>");
+                        divColFive.addClass("col-2")
+                        divColFive.addClass("thumbsUp")
+                        var divColSix = $("<div>");
+                        divColSix.addClass("col-2")
+                        divColSix.addClass("thumbsDown")
+
+                        
+
+                        var image = response.businesses[i].image_url;
+                        var imageData = $("<img>");
+                        imageData.addClass("thumbnail");
+                        imageData.attr("src", image);
+                        $(divColOne).append(imageData);
+
+                        
+
+                        var resultNum = (parseInt(i) + 1);
+                        var resultNumData = $("<h3>");
+                        resultNumData.addClass("resultNumber");
+                        name = response.businesses[i].name;
+                        $(resultNumData).append(resultNum, resultName);
+                        $(divColTwo).append(resultNumData);
+                        
+                        
+
+                        var phone = response.businesses[i].display_phone;
+                        var address = response.businesses[i].location.address1;
+                        var city = response.businesses[i].location.city; 
+                        var zip = response.businesses[i].location.zip_code;
+                        var resultPhone = $("<p>");
+                        $(resultPhone).append(phone);
+                        var resultAddress = $("<p>");
+                        $(resultAddress).append(address);
+                        var resultCity = $("<p>");
+                        $(resultCity).text(city + ", CA " + zip);
+                        $(divColThree).append(resultPhone, resultAddress, resultCity);
+                        
+                        var modalButton = $("<button>");
+                        modalButton.attr("type", "button");
+
+
+
+                        var thumbsupButton = $("<button>");
+                        thumbsupButton.attr("src", "thumbsup.png");
+                        thumbsupButton.attr("data-name", uniqueId);
+                        var thumbsdownButton = $("<button>");
+                        thumbsdownButton.attr("src", "thumbsdown.png");
+                        thumbsupButton.attr("data-name", uniqueId);
+
+                        $(divRow).append(divColOne, divColTwo, divColThree, divColFour, divColFive, divColSix);
+                        $(".resultVisTwo").append(divRow);
+                        $(divRow).empty();
+                    }
+
+                });
+            });
+        })
+
+    </script>
+</body>
+
+</html>open
