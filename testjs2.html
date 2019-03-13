@@ -31,7 +31,7 @@
             <input type="submit">
         </form>
     </div>
-    <section class="section resultinvis">
+    <section class="section resultInvisOne">
         <div class="card col-8 align-self-center">
 
             <div class="card-body">
@@ -45,10 +45,12 @@
             </div>
         </div>
     </section>
-    <div class="container resultinvis">
+    <div class="container resultInvisTwo">
 
 
     </div>
+
+    
 
     <script>
 
@@ -75,8 +77,8 @@
         var friday = "";
         var startHour = "";
         var endHour = "";
-        var likes = 0;
-        var dislikes = 0;
+        var thumbsup = 0;
+        var thumbsdown = 0;
 
 
 
@@ -101,7 +103,8 @@
                 // removing search fields and replacing with results
                 $(".searchvis").empty();
                 $(".searchvis").attr("class", "searchinvis");
-                $(".resultinvis").attr("class", "resultvis");
+                $(".resultInvisOne").attr("class", "resultVisOne");
+                $(".resultInvisTwo").attr("class", "resultVisTwo");
 
                 $.ajax({
                     url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price + '&limit=10',
@@ -115,22 +118,83 @@
 
 
                     for (var i = 0; i < response.businesses.length; i++) {
-                        // var divRow = $("<div>");
-                        // divRow.addClass("row");
+                        uniqueId = response.businesses[i].id
 
-                        // var image = response.businesses[i].image_url;
-                        // var imageData = $("<img>");
-                        // imageData.addClass("thumbnail");
-                        // imageData.attr("src", image);
-                        // imageData.addClass("thumbnail");
+                        
+                        var divRow = $("<div>");
+                        divRow.addClass("results");
+                        var divColOne = $("<div>");
+                        divColOne.addClass("col-")
+                        divColOne.addClass("thumbnail")
+                        var divColTwo = $("<div>");
+                        divColTwo.addClass("col-")
+                        divColTwo.addClass("name");
+                        var divColThree = $("<div>");
+                        divColThree.addClass("col-")
+                        divColThree.addClass("address")
+                        var divColFour = $("<div>");
+                        divColFour.addClass("col-")
+                        divColFour.addClass("modalButton")
+                        var divColFive = $("<div>");
+                        divColFive.addClass("col-")
+                        divColFive.addClass("thumbsUp")
+                        var divColSix = $("<div>");
+                        divColSix.addClass("col-")
+                        divColSix.addClass("thumbsDown")
 
-                        // var resultNum = (parseInt(i) + 1);
-                        // var resultNumData = $("<h2>");
-                        // nameData.addClass("resultNumber");
-                        // nameData.append(resultNumData);
+                        
+
+                        var image = response.businesses[i].image_url;
+                        var imageData = $("<img>");
+                        imageData.addClass("thumbnail");
+                        imageData.attr("src", image);
+                        $(divColOne).append(imageData);
+
+                        
+
+                        var resultNum = (parseInt(i) + 1 + ".  ");
+                        var resultNumData = $("<h3>");
+                        resultNumData.addClass("resultNumber");
+                        name = response.businesses[i].name;
+                        $(resultNumData).append(resultNum, name);
+                        $(divColTwo).append(resultNumData);
+                        
+                
+
+                        var phone = response.businesses[i].display_phone;
+                        var address = response.businesses[i].location.address1;
+                        var city = response.businesses[i].location.city; 
+                        var zip = response.businesses[i].location.zip_code;
+                        var resultPhone = $("<p>");
+                        $(resultPhone).append(phone);
+                        var resultAddress = $("<p>");
+                        $(resultAddress).append(address);
+                        var resultCity = $("<p>");
+                        $(resultCity).text(city + ", CA " + zip);
+                        $(divColThree).append(resultPhone, resultAddress, resultCity);
+                        
+                        var modalButton = $("<button>");
+                        modalButton.attr("type", "button");
+                        modalButton.addClass("btn");
+                        modalButton.addClass("btn-secondary");
+                        modalButton.addClass("btn-lg");
+                        modalButton.text("Add Happy Hr. Details")
+                        $(divColFour).append(modalButton);
 
 
-                        $(".resultvis").append('<img class="thumbnail" src="' + response.businesses[i].image_url + '"/>' + '<h2 class="resultnumber">' + (parseInt(i) + 1) + '.</h2><h2 class="name">' + response.businesses[i].name + '</h2><p class="phone">' + response.businesses[i].display_phone + '</p><p class="address">' + response.businesses[i].location.address1 + ', ' + response.businesses[i].location.city + ' ' + response.businesses[i].location.zip_code + '</p><hr>')
+                        var thumbsupButton = $("<button>");
+                        thumbsupButton.attr("src", "thumbsup.png");
+                        thumbsupButton.attr("data-name", uniqueId);
+                        $(divColFive).append(thumbsupButton)
+                        
+                        var thumbsdownButton = $("<button>");
+                        thumbsdownButton.attr("src", "thumbsdown.png");
+                        thumbsupButton.attr("data-name", uniqueId);
+                        $(divColSix).append(thumbsdownButton)
+
+                        $(divRow).append(divColOne, divColTwo, divColThree, divColFour, divColFive, divColSix);
+                        $(".resultVisTwo").append(divRow);
+                        // $(divRow).empty();
                     }
 
                 });

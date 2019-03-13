@@ -1,3 +1,26 @@
+.searchvis {
+    border: 2px solid black;
+    display: inline-block;
+    position: fixed;
+    padding: 10px;
+    visibility: visible;
+}
+
+input {
+    display: block;
+    margin: 10px;
+}
+
+.searchinvis {
+    visibility: hidden;
+    margin-top: 2%;
+}
+
+.card {
+    margin-left: 16%;
+    margin-bottom: 2%;
+}
+
 .map-container-7{
     overflow:hidden;
     padding-bottom:56.25%;
@@ -12,24 +35,7 @@
     position:absolute;        
     }
 
-    .card {
-        margin-left: 16%;
-    }
-    
-    .searchvis {
-        border: 2px solid black;
-        display: inline-block;
-        position: fixed;
-        padding: 10px;
-        visibility: visible;
-    }
-
-    .searchinvis {
-        visibility: hidden;
-        margin-top: 2%;
-    }
-
-    .resultinvis {
+    .resultInvisOne {
         visibility: hidden;
         border: 2px solid black;
         overflow: auto;
@@ -40,17 +46,8 @@
         height: 80vh;
     }
 
-    .resultvis {
-        visibility: visible;
-
-    }
-
-    input {
-        display: block;
-        margin: 10px;
-    }
-
-    .container {
+    .resultInvisTwo {
+        visibility: hidden;
         border: 2px solid black;
         overflow: auto;
         width: 90%;
@@ -60,27 +57,73 @@
         height: 80vh;
     }
 
-    h2 {
-        text-align: center;
+
+    .resultVisOne {
+        visibility: visible;
 
     }
 
-    p {
-        text-align: center;
+    .resultVisTwo {
+        visibility: visible;
+
     }
 
     .thumbnail {
-        height: 200px;
-        width: 200px;
+        height: 100px;
+        width: 100px;
         border-radius: 100%;
         float: left;
     }
 
-    .address {
-        margin-bottom: 120px;
+    .name {
+        height: 100px;
+        width: 20%;
+        float: left;
     }
 
-    .card {
-        height:40%;
-        width: 100%;
+    .address {
+        background-color: blue;
+        margin-left: 2%;
+        height: 100px;
+        width: 12%;
+        float: left;
     }
+
+    .modalButton {
+        background-color: blue;
+        margin-left: 2%;
+        height: 100px;
+        width: 20%;
+        float: left;
+    }
+
+    .thumbsUp {
+        background-color: blue;
+        margin-left: 2%;
+        height: 100px;
+        width: 15%;
+        float: left;
+    }
+
+    .thumbsDown {
+        background-color: blue;
+        margin-left: 2%;
+        height: 100px;
+        width: 15%;
+        float: left;
+    }
+
+   
+
+
+    .resultNumber {
+        float: left;
+        margin-left: 2%;
+    }
+
+
+
+    
+
+
+    
