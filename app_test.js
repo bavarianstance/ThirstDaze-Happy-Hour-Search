@@ -170,7 +170,8 @@ $(document).ready(function () {
 
                 var modalButton = $("<button>");
                 modalButton.attr("data-name", businessId);
-                modalButton.addClass("modalClass")
+                modalButton.attr("data-busname", name);
+                modalButton.addClass("modalClass");
                 // modalButton.attr("id", "modalId" + i)
                 modalButton.attr("type", "button");
                 modalButton.attr("data-toggle", "modal");
@@ -178,7 +179,7 @@ $(document).ready(function () {
                 modalButton.addClass("btn");
                 modalButton.addClass("btn-secondary");
                 modalButton.addClass("btn-lg");
-                modalButton.text("Add Happy Hr. Details")
+                modalButton.text("Add Happy Hr. Details");
                 $(divColFour).append(modalButton);
 
 
@@ -276,6 +277,9 @@ $(document).on("click", ".modalClass", function (event) {
     event.preventDefault();
     businessId = $(this).attr("data-name");
     console.log($(this).attr("data-name"));
+    name = $(this).attr("data-busname");
+    console.log($(this).attr("data-busname"));
+    $("#businessname").text(name);
     $("#detailModal").on("click", "#detailSubmit", function (event) {
         console.log($("#monday").prop("checked"));
         database.ref('businesses/' + businessId).update({
