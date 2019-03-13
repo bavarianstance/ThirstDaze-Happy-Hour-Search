@@ -68,6 +68,10 @@ input {
 
     }
 
+    .results{
+        margin-bottom: 10px;
+    }
+
     .thumbnail {
         height: 100px;
         width: 100px;
@@ -77,28 +81,22 @@ input {
 
     .name {
         height: 100px;
-        width: 20%;
         float: left;
     }
 
     .address {
-        background-color: blue;
         margin-left: 2%;
         height: 100px;
-        width: 12%;
         float: left;
     }
 
     .modalButton {
-        background-color: blue;
         margin-left: 2%;
         height: 100px;
-        width: 20%;
         float: left;
     }
 
     .thumbsUp {
-        background-color: blue;
         margin-left: 2%;
         height: 100px;
         width: 15%;
@@ -106,10 +104,8 @@ input {
     }
 
     .thumbsDown {
-        background-color: blue;
         margin-left: 2%;
         height: 100px;
-        width: 15%;
         float: left;
     }
 
@@ -119,6 +115,7 @@ input {
     .resultNumber {
         float: left;
         margin-left: 2%;
+        margin-top: 7%;
     }
 
 
