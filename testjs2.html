@@ -120,21 +120,26 @@
                         name = response.businesses[i].name;
 
                         function writeBusinessData(businessId, name) {
-                            
-                            if (firebase.database().ref('businesses/' + businessId) === "") {
-                                firebase.database().ref('businesses/' + businessId).set({
-                                name: name,
-                                thumbsup: thumbsup,
-                                thumbsdown: thumbsdown,
-                                monday: monday,
-                                tuesday: tuesday,
-                                wednesday: wednesday,
-                                thursday: thursday,
-                                friday: friday,
-                                startHour: startHour,
-                                endHour: endHour,
-                                dealDesc: dealDesc
-                            })
+                            database.ref().on("value", function (snapshot) {
+
+                                if (snapshot.child("businesID") === null) {
+
+                                    firebase.database().ref('businesses/' + businessId).set({
+                                        name: name,
+                                        thumbsup: thumbsup,
+                                        thumbsdown: thumbsdown,
+                                        monday: monday,
+                                        tuesday: tuesday,
+                                        wednesday: wednesday,
+                                        thursday: thursday,
+                                        friday: friday,
+                                        startHour: startHour,
+                                        endHour: endHour,
+                                        dealDesc: dealDesc
+                                    }
+                                    );
+                                }
+                            });
 
                         }
 
@@ -211,7 +216,7 @@
                         var thumbsupButton = $("<button>");
                         // thumbsupButton.attr("src", "thumbsup.png");
                         thumbsupButton.attr("data-name", businessId);
-                        thumbsupButton.attr("id", "add-thumbsup")
+                        thumbsupButton.attr("id", "add-thumbsup");
                         thumbsupButton.addClass("btn");
                         thumbsupButton.addClass("btn-secondary");
                         thumbsupButton.text("thumbs up");
@@ -219,6 +224,7 @@
 
                         var thumbsdownButton = $("<button>");
                         // thumbsdownButton.attr("src", "/project-happyhour/thumbsdown.png");
+                        thumbsdownButton.attr("id", "add-thumbsdown");
                         thumbsdownButton.attr("data-name", businessId);
                         thumbsdownButton.addClass("btn");
                         thumbsdownButton.addClass("btn-secondary");
@@ -230,9 +236,11 @@
                         // $(divRow).empty();
                     }
 
-                });
+                }
+
+                );
             });
-        })
+        });
 
         // database.ref().on("value", function (snapshot) {
         // We are now inside our .on function...
@@ -264,11 +272,34 @@
                 console.log(thumbsup);
                 thumbsup++;
                 console.log(thumbsup);
-                database.ref('businesses/' + businessId).update({
-                    thumbsup: thumbsup
-                });
+
             })
+            database.ref('businesses/' + businessId).update({
+                thumbsup: thumbsup
+            });
         })
+
+        $(document).on("click", "#add-thumbsdown", function (event) {
+            event.preventDefault();
+
+
+
+            // Grabbed values from text-boxes
+            businessId = $(this).attr("data-name");
+            console.log($(this).attr("data-name"));
+
+            database.ref('businesses/' + businessId).on("value", function (snapshot) {
+                thumbsdown = snapshot.val().thumbsdown;
+                console.log(thumbsdown);
+                thumbsdown++;
+                console.log(thumbsdown);
+
+            })
+            database.ref('businesses/' + businessId).update({
+                thumbsdown: thumbsdown
+            });
+
+        });
     </script>
 </body>
 
