@@ -115,6 +115,7 @@ $(document).ready(function () {
         var term = $("#search").val()
 
         if (location === "" || category === undefined || price === undefined || distance === undefined) {
+            $("#errorModal").modal("toggle");
             return;
             };
 
