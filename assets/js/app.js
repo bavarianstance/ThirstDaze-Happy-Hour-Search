@@ -233,13 +233,9 @@ $(document).ready(function () {
                 var address = response.businesses[i].location.address1;
                 var city = response.businesses[i].location.city;
                 var zip = response.businesses[i].location.zip_code;
-                var resultPhone = $("<p>");
-                $(resultPhone).append(phone);
-                var resultAddress = $("<p>");
-                $(resultAddress).append(address);
                 var resultCity = $("<p>");
-                $(resultCity).text(city + ", CA " + zip);
-                $(divColThree).append(resultPhone, resultAddress, resultCity);
+                $(resultCity).html(phone + "<br>" + address + "<br>" + city + ", CA " + zip);
+                $(divColThree).append(resultCity);
 
                 var modalButton = $("<button>");
                 modalButton.attr("data-name", businessId);
