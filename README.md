@@ -1,10 +1,10 @@
 # Project Happy Hour
 
 ## ThirstDaze 
- - The Happy Hour Appication that provides a curated list of happy hour or daily drink specials based off your current location. The software looks at dozens of different signals, including various measures of quality, reliability, and activity on the ThirstDaze app.
--In addition to our directory, you can use ThirstDaze to find new experiences, neighborhoods, and to see where your friends are ordering pickle backs. 
+ * The Happy Hour Appication that provides a curated list of happy hour or daily drink specials based off your current location. The software looks at dozens of different signals, including various measures of quality, reliability, and activity on the ThirstDaze app.
+* In addition to our directory, you can use ThirstDaze to find new experiences, neighborhoods, and to see where your friends are ordering pickle backs. 
 
--Every business owner or happy hour goer can setup a free account to keep information fresh and up-to- date via crowdsourse.
+* Every business owner or happy hour goer can setup a free account to keep information fresh and up-to- date via crowdsourse.
 
 ## OUR PURPOSE IS TO CONNECT YOU WITH THE CLOSEST, COLDEST, AND CHEAPEST BEVERAGE.
 
@@ -30,3 +30,4 @@
 * Beta v0.88 status
 * User submitted data persists to Firebase but feature to display inline with results still WIP
 * Styling still WIP
+* [Link to live projectd deployed on Github Pages](https://rzcola.github.io/project-happyhour/)
