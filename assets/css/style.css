@@ -134,4 +134,18 @@ h3 {
   text-align:center;
 }
 
+div.searchvis {
+    text-align:center;
+}
 
+#location {
+    position: relative;
+    display: block;
+    margin : 0 auto;
+        }
+
+#search {
+    position: relative;
+    display: block;
+    margin : 0 auto;
+}
