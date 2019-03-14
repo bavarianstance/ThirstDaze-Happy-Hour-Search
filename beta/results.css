@@ -1,0 +1,126 @@
+.searchvis {
+    border: 2px solid black;
+    display: inline-block;
+    position: fixed;
+    padding: 10px;
+    visibility: visible;
+}
+
+input {
+    display: block;
+    margin: 10px;
+}
+
+.searchinvis {
+    visibility: hidden;
+    margin-top: 2%;
+}
+
+.card {
+    margin-left: 16%;
+    margin-bottom: 2%;
+}
+
+.map-container-7{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+    }
+    .map-container-7 iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;        
+    }
+
+    .resultInvisOne {
+        visibility: hidden;
+        border: 2px solid black;
+        overflow: auto;
+        width: 90%;
+        display: block;
+        margin: 10px auto;
+        padding: 20px;
+        height: 80vh;
+    }
+
+    .resultInvisTwo {
+        visibility: hidden;
+        border: 2px solid black;
+        overflow: auto;
+        width: 90%;
+        display: block;
+        margin: 10px auto;
+        padding: 20px;
+        height: 80vh;
+    }
+
+
+    .resultVisOne {
+        visibility: visible;
+
+    }
+
+    .resultVisTwo {
+        visibility: visible;
+
+    }
+
+    .results{
+        margin-bottom: 10px;
+    }
+
+    .thumbnail {
+        height: 100px;
+        width: 100px;
+        border-radius: 100%;
+        float: left;
+    }
+
+    .name {
+        height: 100px;
+        float: left;
+    }
+
+    .address {
+        margin-left: 2%;
+        height: 100px;
+        float: left;
+    }
+
+    .modalButton {
+        margin-left: 2%;
+        height: 100px;
+        float: left;
+    }
+
+    .thumbsUp {
+        margin-left: 2%;
+        height: 100px;
+        width: 15%;
+        float: left;
+    }
+
+    .thumbsDown {
+        margin-left: 2%;
+        height: 100px;
+        float: left;
+    }
+
+   
+
+
+    .resultNumber {
+        float: left;
+        margin-left: 2%;
+        margin-top: 7%;
+    }
+
+
+
+    
+
+
+    

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Yelp API</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="results.css">
+
+
+</head>
+
+<body>
+
+    <div class="form-contain searchvis">
+        <h3 class="search-heading">Search for businesses!</h3>
+        <form class="yelp">
+            <input placeholder="location" id="location" type="text">
+            <input placeholder="category" type="text" id="category">
+            <input placeholder="$" type="text" id="price">
+            <input placeholder="radius" type="text" id="distance">
+            <input placeholder="keyword" type="text" id="search">
+            <input type="submit">
+        </form>
+    </div>
+    <section class="section resultInvisOne">
+        <div class="card col-8 align-self-center">
+
+            <div class="card-body">
+
+                <!--Google map-->
+                <div id="map-container-google-12" class="z-depth-1-half map-container-7" style="height: 50px">
+                    <!-- this will have to come from the response API, we'll have to create an iFrame with the results from the Google Maps query -->
+                    <iframe src="https://maps.google.com/maps?q=Miami&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container resultInvisTwo">
+
+
+    </div>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Submission</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Business Name</label>
+                            <input type="text" class="businessName" id="name" placeholder="Your Go-To Spot">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">Happy Hour Start Time</label>
+                            <select class="form-control" id="startTime">
+                                <option>2PM</option>
+                                <option>3PM</option>
+                                <option>4PM</option>
+                                <option>5PM</option>
+                                <option>6PM</option>
+                                <option>7PM</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect2">Happy Hour End Time</label>
+                            <select class="form-control" id="endTime">
+                                <option>5PM</option>
+                                <option>6PM</option>
+                                <option>7PM</option>
+                                <option>8PM</option>
+                                <option>9PM</option>
+                                <option>10PM</option>
+                                <option>11PM</option>
+                                <option>12AM</option>
+                            </select>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="monday" value="">
+                            <label class="form-check-label" for="inlineCheckbox1">Mon</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="tuesday" value="">
+                            <label class="form-check-label" for="inlineCheckbox2">Tues</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="wednesday" value="">
+                            <label class="form-check-label" for="inlineCheckbox3">Weds</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="thursday" value="">
+                            <label class="form-check-label" for="inlineCheckbox3">Thurs</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="friday" value="">
+                            <label class="form-check-label" for="inlineCheckbox3">Fri</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="drinkDetails">Enter more deets!</label>
+                            <textarea class="form-control" id="detailsText" rows="3"
+                                placeholder="(ie: 2 drink minimum)"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="detailSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+
+        var config = {
+            apiKey: "AIzaSyDkTx3oZPQengp6Wa0c9brsPQfc-jj9gXg",
+            authDomain: "ladytaythebugalex.firebaseapp.com",
+            databaseURL: "https://ladytaythebugalex.firebaseio.com",
+            projectId: "ladytaythebugalex",
+            storageBucket: "ladytaythebugalex.appspot.com",
+            messagingSenderId: "332975401413"
+        };
+
+        firebase.initializeApp(config);
+
+        var database = firebase.database();
+
+        var name = "";
+        var businessId = "";
+        var dealDesc = "";
+        var monday = "";
+        var tuesday = "";
+        var wednesday = "";
+        var thursday = "";
+        var friday = "";
+        var startHour = "";
+        var endHour = "";
+        var thumbsup = 0;
+        var thumbsdown = 0;
+
+        $(document).ready(function () {
+
+            // Some APIs will give us a cross-origin (CORS) error. This small function is a fix for that error. You can also check out the chrome extenstion (https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en).
+            jQuery.ajaxPrefilter(function (options) {
+                if (options.crossDomain && jQuery.support.cors) {
+                    options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+                }
+            });
+
+            $(".yelp").on("submit", function () {
+                $(".container").empty();
+                event.preventDefault();
+
+                var location = $("#location").val()
+                var category = $("#category").val()
+                var price = $("#price").val()
+                var distance = $("#distance").val()
+                var term = $("#search").val()
+                // removing search fields and replacing with results
+                $(".searchvis").empty();
+                $(".searchvis").attr("class", "searchinvis");
+                $(".resultInvisOne").attr("class", "resultVisOne");
+                $(".resultInvisTwo").attr("class", "resultVisTwo");
+
+                $.ajax({
+                    url: 'https://api.yelp.com/v3/businesses/search?categories=' + category + '&term=happy+hour' + "+" + term + '&location=' + location + '&radius=' + distance + '&price=' + price + '&limit=10',
+                    method: "GET",
+                    headers: {
+                        authorization: "Bearer u94GL1gHllHagHc-SWqFcBuNgsLm-EpZoH8kVCeCTJ4g51NHhxgpBhOMid1Oc8Y_7TXgddr0Abi-CyhEqGw3fvJNLi6tJAlAdZH8o02CNMT0s-if4OBJMnwRfoOEXHYx"
+                    }
+                }).then(function (response) {
+                    console.log(response)
+
+
+
+                    for (var i = 0; i < response.businesses.length; i++) {
+                        businessId = response.businesses[i].id
+                        name = response.businesses[i].name;
+
+                        function writeBusinessData(businessId, name) {
+                            database.ref().on("value", function (snapshot) {
+
+                                if (snapshot.child("businessID") === null) {
+
+                                    firebase.database().ref('businesses/' + businessId).set({
+                                        name: name,
+                                        thumbsup: thumbsup,
+                                        thumbsdown: thumbsdown,
+                                        monday: monday,
+                                        tuesday: tuesday,
+                                        wednesday: wednesday,
+                                        thursday: thursday,
+                                        friday: friday,
+                                        startHour: startHour,
+                                        endHour: endHour,
+                                        dealDesc: dealDesc
+                                    }
+                                    );
+                                }
+                            });
+
+                        }
+
+                        writeBusinessData(businessId, name);
+
+
+
+                        var divRow = $("<div>");
+                        divRow.addClass("results");
+                        var divColOne = $("<div>");
+                        divColOne.addClass("col-lg-2");
+                        divColOne.addClass("col-sm-6");
+                        divColOne.addClass("thumbnail")
+                        var divColTwo = $("<div>");
+                        divColTwo.addClass("col-lg-3")
+                        divColTwo.addClass("col-sm-6");
+                        divColTwo.addClass("name");
+                        var divColThree = $("<div>");
+                        divColThree.addClass("col-lg-3")
+                        divColThree.addClass("col-sm-12")
+                        divColThree.addClass("address")
+                        var divColFour = $("<div>");
+                        divColFour.addClass("col-lg-2");
+                        divColFour.addClass("col-sm-12");
+                        divColFour.addClass("modalButton")
+                        var divColFive = $("<div>");
+                        divColFive.addClass("col-lg-1")
+                        divColFive.addClass("col-sm-6")
+                        divColFive.addClass("thumbsUp")
+                        var divColSix = $("<div>");
+                        divColSix.addClass("col-lg-1")
+                        divColSix.addClass("col-sm-6")
+                        divColSix.addClass("thumbsDown")
+
+
+
+                        var image = response.businesses[i].image_url;
+                        var imageData = $("<img>");
+                        imageData.addClass("thumbnail");
+                        imageData.attr("src", image);
+                        $(divColOne).append(imageData);
+
+
+
+                        var resultNum = (parseInt(i) + 1 + ".  ");
+                        var resultNumData = $("<h3>");
+                        resultNumData.addClass("resultNumber");
+                        $(resultNumData).append(resultNum, name);
+                        $(divColTwo).append(resultNumData);
+
+
+
+                        var phone = response.businesses[i].display_phone;
+                        var address = response.businesses[i].location.address1;
+                        var city = response.businesses[i].location.city;
+                        var zip = response.businesses[i].location.zip_code;
+                        var resultPhone = $("<p>");
+                        $(resultPhone).append(phone);
+                        var resultAddress = $("<p>");
+                        $(resultAddress).append(address);
+                        var resultCity = $("<p>");
+                        $(resultCity).text(city + ", CA " + zip);
+                        $(divColThree).append(resultPhone, resultAddress, resultCity);
+
+                        var modalButton = $("<button>");
+                        modalButton.attr("data-name", businessId);
+                        modalButton.addClass("modalClass")
+                        // modalButton.attr("id", "modalId" + i)
+                        modalButton.attr("type", "button");
+                        modalButton.attr("data-toggle", "modal");
+                        modalButton.attr("data-target", "#detailModal");
+                        modalButton.addClass("btn");
+                        modalButton.addClass("btn-secondary");
+                        modalButton.addClass("btn-lg");
+                        modalButton.text("Add Happy Hr. Details")
+                        $(divColFour).append(modalButton);
+
+
+                        var thumbsupButton = $("<button>");
+                        // thumbsupButton.attr("src", "thumbsup.png");
+                        thumbsupButton.attr("data-name", businessId);
+                        thumbsupButton.attr("id", "add-thumbsup");
+                        thumbsupButton.addClass("btn");
+                        thumbsupButton.addClass("btn-secondary");
+                        thumbsupButton.text("thumbs up");
+                        $(divColFive).append(thumbsupButton);
+
+                        var thumbsdownButton = $("<button>");
+                        // thumbsdownButton.attr("src", "/project-happyhour/thumbsdown.png");
+                        thumbsdownButton.attr("id", "add-thumbsdown");
+                        thumbsdownButton.attr("data-name", businessId);
+                        thumbsdownButton.addClass("btn");
+                        thumbsdownButton.addClass("btn-secondary");
+                        thumbsdownButton.text("thumbs down");
+                        $(divColSix).append(thumbsdownButton);
+
+                        $(divRow).append(divColOne, divColTwo, divColThree, divColFour, divColFive, divColSix);
+                        $(".resultVisTwo").append(divRow);
+                        // $(divRow).empty();
+                    }
+
+                }
+
+                );
+            });
+        });
+
+        // database.ref().on("value", function (snapshot) {
+        // We are now inside our .on function...
+
+        // Console.log the "snapshot" value (a point-in-time representation of the database)
+        // console.log(snapshot.val());
+        // This "snapshot" allows the page to get the most current values in firebase.
+
+        // Change the value of our clickCounter to match the value in the database
+        // thumbsup = snapshot.val().thumbsup;
+        // thumbsdown = snapshot.val().thumbsdown;
+
+        // Console Log the value of the clickCounter
+        // console.log(thumbsup);
+        // console.log(thumbsdown);
+        // });
+
+        $(document).on("click", "#add-thumbsup", function (event) {
+            event.preventDefault();
+
+
+
+            // Grabbed values from text-boxes
+            businessId = $(this).attr("data-name");
+            console.log($(this).attr("data-name"));
+
+            database.ref('businesses/' + businessId).on("value", function (snapshot) {
+                thumbsup = snapshot.val().thumbsup;
+                console.log(thumbsup);
+                thumbsup++;
+                console.log(thumbsup);
+
+            })
+            database.ref('businesses/' + businessId).update({
+                thumbsup: thumbsup
+            });
+        })
+
+        $(document).on("click", "#add-thumbsdown", function (event) {
+            event.preventDefault();
+
+
+
+            // Grabbed values from text-boxes
+            businessId = $(this).attr("data-name");
+            console.log($(this).attr("data-name"));
+
+            database.ref('businesses/' + businessId).on("value", function (snapshot) {
+                thumbsdown = snapshot.val().thumbsdown;
+                console.log(thumbsdown);
+                thumbsdown++;
+                console.log(thumbsdown);
+
+            })
+            database.ref('businesses/' + businessId).update({
+                thumbsdown: thumbsdown
+            });
+
+
+
+        });
+
+        $(document).on("click", ".modalClass", function (event) {
+            event.preventDefault();
+            businessId = $(this).attr("data-name");
+            console.log($(this).attr("data-name"));
+            $("#detailModal").on("click", "#detailSubmit", function (event) {
+                console.log($("#monday").prop("checked"));
+                database.ref('businesses/' + businessId).update({
+                    dealDesc: $("#detailsText").val().trim(),
+                    monday: $("#monday").prop("checked"),
+                    tuesday: $("#tuesday").prop("checked"),
+                    wednesday: $("#wednesday").prop("checked"),
+                    thursday: $("#thursday").prop("checked"),
+                    friday: $("#friday").prop("checked"),
+                    startHour: $("#startTime").val().trim(),
+                    endHour: $("#endTime").val().trim()
+                });
+                $("#detailModal").modal("toggle");
+            });
+        });
+
+    </script>
+
+
+</body>
+
+</html>
