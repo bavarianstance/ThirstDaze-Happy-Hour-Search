@@ -118,6 +118,9 @@ input {
         margin-top: 7%;
     }
 
+    #map {
+        height: 300px;
+    }
 
 
     
