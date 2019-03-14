@@ -159,7 +159,7 @@ $(document).ready(function () {
                 function writeBusinessData(businessId, name) {
                     database.ref().on("value", function (snapshot) {
 
-                        if (snapshot.child("businessId") === null) {
+                        if (firebase.database().ref('businesses/' + businessId) === null) {
 
                             firebase.database().ref('businesses/' + businessId).set({
                                 name: name,
