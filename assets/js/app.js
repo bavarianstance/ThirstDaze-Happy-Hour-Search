@@ -106,11 +106,18 @@ $(document).ready(function () {
         $(".container").empty();
         event.preventDefault();
 
+
+
         var location = $("#location").val()
         var category = $("div.category button.active").val()
         var price = $("div.price button.active").val()
         var distance = $("div.radius button.active").val()
         var term = $("#search").val()
+
+        if (location === "" || category === undefined || price === undefined || distance === undefined) {
+            return;
+            };
+
         // removing search fields and replacing with results
         $(".searchvis").empty();
         $(".searchvis").attr("class", "searchinvis");
@@ -132,7 +139,7 @@ $(document).ready(function () {
                         $("#newsearch").on("click", function(){
                             window.location.reload();
                         });
-                    }
+                    } 
 
             for (var i = 0; i < response.businesses.length; i++) {
                 
