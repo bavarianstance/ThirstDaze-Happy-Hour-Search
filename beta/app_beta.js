@@ -54,7 +54,7 @@ var config = {
                     console.log(response)
 
                     if (response.businesses.length === 0) {
-                        $("#results").append('<br><h2 class="noresults">No Results' + '</h2><br><p class="suggestion">Please try further and/or cheaper' + '</p><hr>' )
+                        $("div.resultInvisTwo").append('<br><h2 class="noresults">No Results' + '</h2><br><p class="suggestion">Please try further and/or cheaper' + '</p><hr>' )
                     }
 
                     for (var i = 0; i < response.businesses.length; i++) {

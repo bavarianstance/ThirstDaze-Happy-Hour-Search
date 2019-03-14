@@ -24,6 +24,55 @@ var endHour = "";
 var thumbsup = 0;
 var thumbsdown = 0;
 
+var markerCoords = [];
+
+/* Function to find avg lat and avg lng to set for map.center. */
+function findCenter(latLngCoords) {
+    // Will be passed to map.center, a required property.
+    var mapCenter = {};
+    var latTotal = 0;
+    var lngTotal = 0;
+
+    for (var i = 0; i < latLngCoords.length; i++) {
+      latTotal += latLngCoords[i].lat;
+      lngTotal += latLngCoords[i].lng;
+    };
+
+    var avgLat = latTotal / markerCoords.length;
+    var avgLng = lngTotal / markerCoords.length;
+
+    mapCenter.lat = avgLat;
+    mapCenter.lng = avgLng;
+
+    return mapCenter;
+};
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: findCenter(markerCoords)
+  });
+
+  var label = 0;
+  // Create map marker for each search result.
+  for (var i = 0; i < markerCoords.length; i++) {
+    var position = {lat: markerCoords[i].lat,
+                    lng: markerCoords[i].lng
+    };
+    var title = markerCoords[i].title;
+    label++;
+    console.log(label);
+    var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: title,
+        label: label.toString()
+    });
+  };
+};
+
+$("#map").hide();
+
 $(document).ready(function(){
 
     $("div.category button.btn").click(function(){
@@ -80,6 +129,16 @@ $(document).ready(function () {
 
 
             for (var i = 0; i < response.businesses.length; i++) {
+                
+                var markerPosition = {
+                    lat: response.businesses[i].coordinates.latitude,
+                    lng: response.businesses[i].coordinates.longitude,
+                    title: response.businesses[i].name
+                  };
+
+                  // Store lat/lng coordinates in markerCoords.
+                  markerCoords.push(markerPosition);
+                
                 businessId = response.businesses[i].id
                 name = response.businesses[i].name;
 
@@ -201,10 +260,15 @@ $(document).ready(function () {
                 thumbsdownButton.text("thumbs down");
                 $(divColSix).append(thumbsdownButton);
 
+                
                 $(divRow).append(divColOne, divColTwo, divColThree, divColFour, divColFive, divColSix);
                 $(".resultVisTwo").append(divRow);
                 // $(divRow).empty();
             }
+
+            initMap();
+            $("#map").show();
+            console.log(markerCoords)
 
         }
 

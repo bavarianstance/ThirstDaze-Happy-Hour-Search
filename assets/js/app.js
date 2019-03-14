@@ -126,7 +126,13 @@ $(document).ready(function () {
         }).then(function (response) {
             console.log(response)
 
-
+                    if (response.businesses.length === 0) {
+                        $(".resultVisTwo").append('<br><h2 class="noresults">No Results' + '</h2><br><p class="suggestion">Please try further and/or cheaper' + '</p><hr>' );
+                        $(".resultVisTwo").append('<button type="button" class="btn btn-warning" id="newsearch">New Search</button>');
+                        $("#newsearch").on("click", function(){
+                            window.location.reload();
+                        });
+                    }
 
             for (var i = 0; i < response.businesses.length; i++) {
                 
