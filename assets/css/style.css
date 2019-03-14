@@ -136,8 +136,9 @@ h3 {
 
 div.searchvis {
     text-align:center;
-    padding:50px;
-    margin-left:20px;
+    position: relative;
+    display: block;
+    margin : 0 auto;
 }
 
 #location {
@@ -152,8 +153,3 @@ div.searchvis {
     margin : 0 auto;
 }
 
-div.address {
-    padding:10px;
-    border-style:solid black;
-    border-radius: 25%;
-}

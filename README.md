@@ -28,6 +28,7 @@
 
 ### Comments
 * Beta v0.88 status
+* Known compataibility issues with Firefox at the moment
 * User submitted data persists to Firebase but feature to display inline with results still WIP
 * Styling still WIP
 * [Link to live projectd deployed on Github Pages](https://rzcola.github.io/project-happyhour/)

@@ -182,8 +182,6 @@ $(document).ready(function () {
 
                 writeBusinessData(businessId, name);
 
-
-
                 var divRow = $("<div>");
                 divRow.addClass("results");
                 var divColOne = $("<div>");
