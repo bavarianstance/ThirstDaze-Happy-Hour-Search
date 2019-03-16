@@ -31,7 +31,7 @@
 * Known compataibility issues with Firefox at the moment
 * User submitted data persists to Firebase but feature to display inline with results still WIP
 * Styling still WIP
-* [Link to live projectd deployed on Github Pages](https://bavarianstance.github.io/ThirstDaze-Happy-Hour-Search/)
+* [Link to live project deployed on Github Pages](https://bavarianstance.github.io/ThirstDaze-Happy-Hour-Search/)
 
 ### Screenshot
 ![screenshot](./assets/img/screenshot.png "Screenshot 1")
